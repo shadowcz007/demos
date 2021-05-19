@@ -1,0 +1,65 @@
+<div id="guess-card" style='width: 100%;
+    height: 50vh;
+    background: black;
+    color: white;
+    text-align: center;'>
+    <h4 style='color:white;margin-top:2em;display:none'>XXXX</h4>
+	 <input type='text' style='margin-top:2em;display:none'>
+     <br>
+     <button style='color:black;
+                    margin-top:2em;
+                    background: white;
+                    padding:1em;
+                    border:none
+                    '>开始答题</button>
+    
+</div>
+<script>
+var pages=`mixlab的中文名称是什么？ 无界社区
+mixlab的slogan是什么？ 让每个人无限可能
+mixlab有关注过科幻主题吗？ 关注|关注过|没错|对的|对|有的|是的|有|是|y`;
+var index=-1;
+pages=Array.from(pages.split('\n'),p=>p.split(' '));
+var targetText='';
+
+document.querySelector('#guess-card button').addEventListener('click',e=>{
+    if(index===-1){
+        document.querySelector('#guess-card input').style.display='initial';
+        document.querySelector('#guess-card h4').style.display='block';
+        document.querySelector('#guess-card button').innerText='确定';
+		index++;
+        createPage();
+    }else{
+        let tt=document.querySelector('#guess-card input').value.toLowerCase();
+        let c=Array.from(targetText.split('|'),t=>{
+            //console.log(t.toLowerCase(),tt);
+            return t.toLowerCase()==tt?1:0
+        }).filter(f=>f==1);
+
+        if(c.length>0){
+            alert('答对啦');
+            createPage();
+        }else{
+			alert('再想想');
+		}
+
+    }
+   
+
+  })
+function createPage(){
+    if(pages.length<=index) {
+        document.querySelector('#guess-card h4').innerText='领取奖品，公众号回复：520';
+        document.querySelector('#guess-card button').remove();
+        document.querySelector('#guess-card input').remove();
+		return alert('完成全部答题')
+    };
+    document.querySelector('#guess-card h4').innerText=(index+1)+'\n'+pages[index][0];
+    targetText=pages[index][1];
+    document.querySelector('#guess-card input').value='';
+    index++;
+};
+
+
+
+</script>
